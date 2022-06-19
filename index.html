@@ -9,27 +9,28 @@
 </head>
 <body>
     <header>
-        <div>
+        <div class="highscores">
             <a>View Highscores</a>
         </div>
-        <div>
-            <h3>Time: 0</h3>
-        </div>
+        <div class="timer">Time: 0</div>
     </header>
 
     <main>
         <div class="container">
-            <h1>Coding Quiz Challenge</h1>
-            <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorret answers will penalize your score/time by ten seconds!</p>
-            <button>Start Quiz</button>
+            <div class="start-container ">
+                <h1>Coding Quiz Challenge</h1>
+                <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorret answers will penalize your score/time by ten seconds!</p>
+                <button class="btn start-btn">Start Quiz</button>
+            </div>
             <div class="questions-container hide">
-                <h2 id="question">Question</h2>
-                <div id="answers">
-                    <button class="btn">1</button>
-                    <button class="btn">2</button>
-                    <button class="btn">3</button>
-                    <button class="btn">4</button>
+                <h2 id="question">The condition in an if / else statement is enclosed within ____. some lorem ispsum something words</h2>
+                <div class="answers-btn" id="answers">
+                    <button class="btn">1. adfa</button>
+                    <button class="btn">2. adfasdfas</button>
+                    <button class="btn">3. a;ldfkj;asldkfj</button>
+                    <button class="btn">4. af</button>
                 </div>
+                <div class="correction">Correct!</div>
             </div>
             <div class="alldone-container hide">
                 <h2>All done!</h2>
@@ -40,12 +41,13 @@
             </div>
             <div class="highscores-container hide">
                 <h2>HighScores</h2>
-                <ul>
+                <ul class="highscore-list">
                     <li>score1</li>
                     <li>score2</li>
+                    <li>score2</li>
                 </ul>
-                <button class="btn">Go Back</button>
-                <button class="btn">Clear Highscores</button>
+                <button class="btn go-back-btn">Go Back</button>
+                <button class="btn clear-btn">Clear Highscores</button>
             </div>
         </div>
     </main>
