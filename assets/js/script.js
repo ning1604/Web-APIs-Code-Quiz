@@ -181,6 +181,8 @@ goBackButton.addEventListener("click", function () {
 // timer
 
 function loseGame() {
+    timerCount = 0;
+    timerElement.textContent = timerCount;
     questionsContainer.forEach(
         function(node) {
             node.classList.add("hide");
@@ -199,7 +201,8 @@ function startTimer() {
                 clearInterval(timer);
             }
         }
-        if (timerCount === 0) {
+        if (timerCount <= 0) {
+            timerCount = 0
             clearInterval(timer);
             loseGame();
         }
