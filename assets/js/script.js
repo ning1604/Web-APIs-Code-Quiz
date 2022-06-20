@@ -2,12 +2,13 @@ var startButton = document.querySelector(".start-btn");
 var startContainer = document.querySelector(".start-container");
 var questionElement = document.getElementById("question");
 var container = document.querySelector(".container");
-var questionsContainer = document.querySelector(".question-container");
+var questionsContainer = document.querySelectorAll(".question-container");
 var allDoneContainer = document.querySelector(".alldone-container");
 var highscoresContainer = document.querySelector(".highscores-container");
 var answerButton = document.querySelector("ans-btn");
 var correctDisplay = document.querySelector(".correct");
 var wrongDisplay = document.querySelector(".wrong");
+var timerScore = document.querySelector(".timer-score");
 
 // questions
 var questionOne = document.querySelector(".question-one");
@@ -23,7 +24,7 @@ function startGame() {
     startContainer.classList.add("hide");
     questionOne.classList.remove("hide");
     isWin = false;
-    timerCount = 10;
+    timerCount = 30;
     startTimer()
 }
 
@@ -53,26 +54,35 @@ container.addEventListener("click", function (event) {
             questionFive.classList.add("hide");
             allDoneContainer.classList.remove("hide");
             correctAnswer()
+            isWin = true
+            scoreUpdate()
         } else if (state === "wrongOne") {
             questionOne.classList.add("hide");
             questionTwo.classList.remove("hide");
+            timePenalty()
             wrongAnswer()
         } else if (state === "wrongTwo") {
             questionTwo.classList.add("hide");
             questionThree.classList.remove("hide");
+            timePenalty()
             wrongAnswer()
         } else if (state === "wrongThree") {
             questionThree.classList.add("hide");
             questionFour.classList.remove("hide");
+            timePenalty()
             wrongAnswer()
         } else if (state === "wrongFour") {
             questionFour.classList.add("hide");
             questionFive.classList.remove("hide");
+            timePenalty()
             wrongAnswer()
         } else if (state === "wrongFive") {
             questionFive.classList.add("hide");
             allDoneContainer.classList.remove("hide");
+            timePenalty()
             wrongAnswer()
+            isWin = true
+            scoreUpdate()
         }
     }
 });
@@ -130,11 +140,11 @@ function storehighscores() {
 submitButton.addEventListener("click", function (event) {
     allDoneContainer.classList.add("hide");
     highscoresContainer.classList.remove("hide");
-    var todoText = initialsInput.value.trim();
-    if (todoText === "") {
+    var highscoreText = initialsInput.value.trim();
+    if (highscoreText === "") {
         return;
     }
-    highscores.push(todoText);
+    highscores.push(highscoreText + " - " + timerCount);
     initialsInput.value = "";
 
     storehighscores();
@@ -150,8 +160,13 @@ clearButton.addEventListener("click", function () {
 init();
 
 viewHighscores.addEventListener("click", function () {
+    clearInterval(timer)
     startContainer.classList.add("hide");
-    questionsContainer.classList.add("hide");
+    questionsContainer.forEach(
+        function(node) {
+            node.classList.add("hide");
+        }
+    );
     allDoneContainer.classList.add("hide");
     highscoresContainer.classList.remove("hide")
 })
@@ -163,7 +178,11 @@ goBackButton.addEventListener("click", function () {
 // Timer
 
 function loseGame() {
-    questionsContainer.classList.add("hide");
+    questionsContainer.forEach(
+        function(node) {
+            node.classList.add("hide");
+        }
+    )
     allDoneContainer.classList.remove("hide");
 }
 
@@ -177,11 +196,9 @@ function startTimer() {
         timerCount--;
         timerElement.textContent = timerCount;
         if (timerCount >= 0) {
-            // Tests if win condition is met
             if (isWin && timerCount > 0) {
-                // Clears interval and stops timer
+                
                 clearInterval(timer);
-                winGame();
             }
         }
         // Tests if time has run out
@@ -191,4 +208,12 @@ function startTimer() {
             loseGame();
         }
     }, 1000);
+}
+
+function scoreUpdate() {
+    timerScore.textContent = timerCount;
+}
+
+function timePenalty() {
+    timerCount = timerCount - 10;
 }
