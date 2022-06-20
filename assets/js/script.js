@@ -9,6 +9,16 @@ var answerButton = document.querySelector("ans-btn");
 var correctDisplay = document.querySelector(".correct");
 var wrongDisplay = document.querySelector(".wrong");
 var timerScore = document.querySelector(".timer-score");
+var initialsInput = document.querySelector("#initials-text")
+var submitButton = document.querySelector("#submit-btn");
+var clearButton = document.querySelector(".clear-btn");
+var highscoreList = document.querySelector(".highscore-list");
+var viewHighscores = document.querySelector(".view-highscores");
+var goBackButton = document.querySelector(".go-back-btn")
+var timerElement = document.querySelector(".timer-count");
+var isWin = false;
+var timer;
+var timerCount;
 
 // questions
 var questionOne = document.querySelector(".question-one");
@@ -17,7 +27,7 @@ var questionThree = document.querySelector(".question-three");
 var questionFour = document.querySelector(".question-four");
 var questionFive = document.querySelector(".question-five");
 
-
+// start game
 startButton.addEventListener("click", startGame);
 
 function startGame() {
@@ -27,7 +37,7 @@ function startGame() {
     timerCount = 30;
     startTimer()
 }
-
+// next question
 container.addEventListener("click", function (event) {
     var element = event.target;
 
@@ -86,7 +96,7 @@ container.addEventListener("click", function (event) {
         }
     }
 });
-
+// checking answer
 function correctAnswer() {
     correctDisplay.classList.remove("hide");
     setTimeout(function () {
@@ -101,15 +111,7 @@ function wrongAnswer() {
     }, 1000);
 };
 
-// Highscores section
-
-var initialsInput = document.querySelector("#initials-text")
-var submitButton = document.querySelector("#submit-btn");
-var clearButton = document.querySelector(".clear-btn");
-var highscoreList = document.querySelector(".highscore-list");
-var viewHighscores = document.querySelector(".view-highscores");
-var goBackButton = document.querySelector(".go-back-btn")
-
+// highscores section
 var highscores = [];
 
 function renderhighscores() {
@@ -137,7 +139,7 @@ function init() {
 function storehighscores() {
     localStorage.setItem("highscores", JSON.stringify(highscores));
 }
-submitButton.addEventListener("click", function (event) {
+submitButton.addEventListener("click", function () {
     allDoneContainer.classList.add("hide");
     highscoresContainer.classList.remove("hide");
     var highscoreText = initialsInput.value.trim();
@@ -145,6 +147,7 @@ submitButton.addEventListener("click", function (event) {
         return;
     }
     highscores.push(highscoreText + " - " + timerCount);
+
     initialsInput.value = "";
 
     storehighscores();
@@ -175,7 +178,7 @@ goBackButton.addEventListener("click", function () {
     window.location.reload();
 })
 
-// Timer
+// timer
 
 function loseGame() {
     questionsContainer.forEach(
@@ -185,11 +188,6 @@ function loseGame() {
     )
     allDoneContainer.classList.remove("hide");
 }
-
-var timerElement = document.querySelector(".timer-count");
-var isWin = false;
-var timer;
-var timerCount;
 
 function startTimer() {
     timer = setInterval(function () {
@@ -201,9 +199,7 @@ function startTimer() {
                 clearInterval(timer);
             }
         }
-        // Tests if time has run out
         if (timerCount === 0) {
-            // Clears interval
             clearInterval(timer);
             loseGame();
         }
@@ -211,7 +207,7 @@ function startTimer() {
 }
 
 function scoreUpdate() {
-    timerScore.textContent = timerCount;
+    timerScore.textContent = timerCount - 1;
 }
 
 function timePenalty() {
